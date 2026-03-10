@@ -8,7 +8,7 @@ environment {
 
     DOCKER_CREDENTIALS = "docker-hub"
 
-    GCP_PROJECT = "your-gcp-project-id"
+    GCP_PROJECT = "serious-hold-451015-e5"
     GKE_CLUSTER = "k8sbe"
     GKE_ZONE = "asia-east1"
 }
