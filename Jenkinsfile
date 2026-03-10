@@ -14,6 +14,26 @@ pipeline {
 
     stages {
 
+        stage('Check DockerHub Connection') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh '''
+                    echo "Testing DockerHub login..."
+
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+
+                    echo "Docker login successful"
+
+                    docker info | grep Username || true
+                    '''
+                }
+            }
+        }
+        
         stage('Checkout') {
             steps {
                 checkout scm
