@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -91,17 +91,42 @@ pipeline {
         stage('Deploy User Service') {
             when {
                 allOf {
-                    branch 'main'
                     expression { CHANGED_FILES.contains("user-service") }
                 }
             }
             steps {
                 sh """
-                kubectl set image deployment/user-service \
-                user-service=$DOCKER_REPO/user-service:$IMAGE_TAG
+                    kubectl set image deployment/user-service \
+                    user-service=$DOCKER_REPO/user-service:$IMAGE_TAG
+                """
+
+                sh "kubectl rollout status deployment/user-service"
+            }
+        }
+        stage('Build Task Service') {
+            when {
+                expression { CHANGED_FILES.contains("task-service") }
+            }
+            steps {
+                sh """
+                docker build -t $DOCKER_REPO/task-service:$IMAGE_TAG ./task-service
+                docker push $DOCKER_REPO/task-service:$IMAGE_TAG
                 """
             }
         }
 
+        stage('Deploy Task Service') {
+            when {
+                expression { CHANGED_FILES.contains("task-service") }
+            }
+            steps {
+                sh """
+                kubectl set image deployment/task-service \
+                task-service=$DOCKER_REPO/task-service:$IMAGE_TAG
+                """
+
+                sh "kubectl rollout status deployment/task-service"
+            }
+        }
     }
 }
