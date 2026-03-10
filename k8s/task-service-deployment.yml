@@ -14,6 +14,6 @@ spec:
         spec:
             containers:
                 - name: task-service
-                  image: victoriousvipin/nms_task-service:latest
+                  image: lemichael52/task-service:latest
                   ports:
                       - containerPort: 3002

@@ -7,6 +7,10 @@ const port = 3001;
 
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+    res.status(200).send("OK");
+});
+
 mongoose
     // .connect("mongodb://localhost:27017/users")
     .connect("mongodb://mongo:27017/users") // Updated for Docker Compose
@@ -27,7 +31,12 @@ const User = mongoose.model("User", UserSchema);
 app.get("/api/users", async (req, res) => {
     try {
         const users = await User.find({});
-        res.status(200).json(users);
+
+        res.status(200).json({
+            message: "123",   // indicator for new docker image
+            data: users
+        });
+
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch users" });
     }
@@ -53,7 +62,7 @@ app.delete("/api/users/all", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`User service listening at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`User service running on port ${port}`);
 });
 module.exports = app;

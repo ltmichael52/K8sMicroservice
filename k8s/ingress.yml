@@ -5,7 +5,7 @@ metadata:
     annotations:
         # nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-    ingressClassName: nginx
+    # ingressClassName: nginx
     rules:
         - http:
               paths:
@@ -15,14 +15,14 @@ spec:
                         service:
                             name: user-service
                             port:
-                                number: 3001
+                                number: 80
                   - path: /api/tasks
                     pathType: Prefix
                     backend:
                         service:
                             name: task-service
                             port:
-                                number: 3002
+                                number: 80
                   - path: /api/notifications
                     pathType: Prefix
                     backend:
@@ -30,3 +30,5 @@ spec:
                             name: notification-service
                             port:
                                 number: 3003
+
+
