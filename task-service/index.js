@@ -43,19 +43,19 @@ res.status(500).json({ error: "Failed to fetch tasks" });
 
 // CREATE task
 app.post("/api/tasks", async (req, res) => {
-try {
-const { title, description, userId } = req.body;
-const task = new Task({ title, description, userId });
-await task.save();
+  try {
+    const { title, description, userId } = req.body;
 
-```
-res.status(201).json(task);
-```
+    const task = new Task({ title, description, userId });
 
-} catch (err) {
-console.log("Error Saving:", err);
-res.status(500).json({ error: "Failed to create task" });
-}
+    await task.save();
+
+    res.status(201).json(task);
+
+  } catch (err) {
+    console.log("Error Saving:", err);
+    res.status(500).json({ error: "Failed to create task" });
+  }
 });
 
 // DELETE all tasks
