@@ -33,7 +33,7 @@ app.get("/api/users", async (req, res) => {
         const users = await User.find({});
 
         res.status(200).json({
-            message: "12345",   // indicator for new docker image
+            message: "1234567",   // indicator for new docker image
             data: users
         });
 
